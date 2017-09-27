@@ -1,9 +1,6 @@
 <template>
   <div class="message" :class="side">
-  	<user :user="message.author"></user>	
-<!-- 	<div class="message__header">
-		<img class="message__avatar" :src="message.author.avatar" alt=""><p class="message__title">{{ message.author.name }} // {{ message.date }}</p>
-	</div> -->
+  	<user v-if="!message.type" :user="message.author"></user>	
     <p class="message__content">{{ message.content }}</p>
   </div>
 </template>

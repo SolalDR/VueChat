@@ -4,7 +4,11 @@
     <div class="chat__body">
         <h2 class="chat__title">Chat</h2>
         <messages-list :messages="store.messages"></messages-list>
-        <form-chat @save-message="onSaveMessage"></form-chat>
+        <form-chat @save-message="onMessageForm"></form-chat>
+    </div>
+    <div class="chat__actions">
+      <a @click="emojiOpen" class="chat__action chat__action-emoji" href="#"></a>
+      <a @click="sendWizz" class="chat__action chat__action-wizz" href="#"></a>
     </div>
   </main>
 </template>
@@ -17,10 +21,36 @@ import UsersList from '../UsersList'
 export default {
   props: ['store'],
   methods: {
-    onSaveMessage: function (message) {
+    saveMessage: function (message) {
+      this.store.messages.push(message)
+    },
+    onMessageForm: function (message) {
       message.author = this.store.user
       message.distant = false
-      this.store.messages.push(message)
+      this.saveMessage(message)
+    },
+    emojiOpen: function () {
+
+    },
+    wizz: function () {
+      var self = this
+      if (!this.$el.className.match('wizz')) {
+        this.$el.className += ' wizz'
+        setTimeout(function () {
+          self.$el.className = self.$el.className.replace('wizz', '')
+        }, 600)
+      }
+    },
+    sendWizz: function () {
+      var message = {
+        author: this.store.user,
+        content: 'Vous avez envoyé un wizz',
+        type: 'wizz',
+        distant: false,
+        date: new Date()
+      }
+      this.saveMessage(message)
+      this.wizz()
     }
   },
   components: {
@@ -49,6 +79,49 @@ export default {
     font-size: $size-big; 
     padding: $small-pad;
     border-bottom: $border-w solid black;
+  }
+  &__actions {
+    display: block;
+    width: 50px;
+    margin-left: $small-pad;
+  }
+  &__action {
+    height: 40px;
+    width: 40px;
+    border: $border-w solid black;
+    margin-bottom: 30px;
+    background-position: center;
+    background-repeat: no-repeat; 
+    background-size: 60%;
+    display: block;
+    background-color: $color-1;
+    &-emoji {
+      background-image: url("/static/icons/Smiley.svg");
+    }
+    &-wizz {
+      background-image: url("/static/icons/Wizz.svg");
+    }
+  }
+}
+
+.chat.wizz .chat__body {
+  animation-name: wizz; 
+  animation-duration: .1s; 
+  animation-iteration-count: infinite;
+}
+
+@keyframes wizz {
+  0% {
+    transform: translateX(0px);
+  }
+  25% {
+    transform: translateX(10px);
+  }
+  75% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
   

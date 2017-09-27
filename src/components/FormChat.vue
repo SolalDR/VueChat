@@ -21,6 +21,7 @@ export default {
         content: this.input,
         date: date.getHours() + ':' + date.getMinutes()
       })
+      this.input = ''
     }
   }
 }
