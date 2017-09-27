@@ -17,7 +17,7 @@ export default {
   props: ['store'],
   methods: {
     onSaveMessage: function (message) {
-      // message.author = this.store.user
+      message.author = this.store.user
       this.messages.push(message)
     }
   },
