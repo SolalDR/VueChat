@@ -9,9 +9,28 @@ import Message from './Message'
 
 export default {
   props: ['messages'],
-  methods: {},
+  computed: {
+    messageCount: {
+      get: function () {
+        return this.messages.length
+      }
+    }
+  },
   components: {
     Message
+  },
+  methods: {
+    scrollToEnd: function () {
+      this.$el.scrollTop = this.$el.scrollHeight
+    }
+  },
+  watch: {
+    messageCount: function (val, old) {
+      var that = this
+      setTimeout(function () {
+        that.scrollToEnd()
+      }, 50)
+    }
   }
 }
 </script>

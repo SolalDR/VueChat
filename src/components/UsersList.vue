@@ -64,4 +64,9 @@ export default {
   }
 }
 
+.users-list .user {
+  display: block;
+  height: 30px;
+}
+
 </style>

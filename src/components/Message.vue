@@ -57,4 +57,8 @@ export default {
 		margin-left: 10px;
 	}
 }
+.message .user {
+	height: 20px;
+	display: inline-block;
+}
 </style>

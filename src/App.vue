@@ -39,7 +39,11 @@ export default {
       store: {
         messages: messages,
         users: users,
-        user: 'Solal'
+        user: {
+          name: 'Solal',
+          distant: false,
+          avatar: 3
+        }
       }
     }
   },

@@ -28,8 +28,11 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative;
     &__profil {
       position: absolute;
+      top: -7px;
+      left: 0;
     }
     &__name {
       margin-left: $medium-pad;
