@@ -55,8 +55,6 @@ export default {
   max-width: 1300px;
   margin: auto;
   margin-top: 100px;
-  top: 45%;
-  transform: translateY(-50%);
 }
 
 </style>

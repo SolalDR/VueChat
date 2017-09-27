@@ -18,7 +18,7 @@ export default {
   methods: {
     onSaveMessage: function (message) {
       message.author = this.store.user
-      this.messages.push(message)
+      this.store.messages.push(message)
     }
   },
   components: {

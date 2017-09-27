@@ -1,6 +1,6 @@
 <template>
   <div class="users-list">
-    <user v-for="user in users"></user>
+    <user v-for="user in users" :user="user"></user>
   </div>
 </template>
 

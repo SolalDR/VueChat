@@ -6,11 +6,7 @@
 
 <script>
   export default {
-    data: function () {
-      return {
-        user: 'Anonyme'
-      }
-    }
+    props: ['user']
   }
 </script>
 
