@@ -8,10 +8,37 @@
 </template>
 
 <script>
-import User from './User'
+const COUNT_AVATAR = 8
 
+function initPictos () {
+  var table = []
+  for (var i = 0; i < COUNT_AVATAR; i++) {
+    table.push(0)
+  }
+  return table
+}
+var pictosAvailable = initPictos()
+
+import User from './User'
 export default {
+  data: function () {
+    return {
+      pictoUse: pictosAvailable
+    }
+  },
   props: ['users'],
+  computed: {},
+  methods: {
+    getNextAvatar: function () {
+      var less = Infinity
+      for (var i = 0; i < this.pictoUse.length; i++) {
+        if (this.pictoUse[i] < less) {
+          less = this.pictoUse[i]
+        }
+      }
+      return less
+    }
+  },
   components: {
     User
   }

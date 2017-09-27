@@ -1,8 +1,8 @@
 <template>
   <div class="chat-form">
-    <form @submit.prevent="onSubmit">
+    <form class="chat-form__form" @submit.prevent="onSubmit">
       <input type="text" v-model="input" placeholder="Votre message..." class="chat-form__input">
-      <input type="submit" value="envoyer" class="chat-form__submit">
+      <input type="submit" value="Ok !" class="chat-form__submit">
     </form>
   </div>
 </template>
@@ -16,9 +16,10 @@ export default {
   },
   methods: {
     onSubmit: function (e) {
+      var date = new Date()
       this.$emit('save-message', {
         content: this.input,
-        date: Date.now()
+        date: date.getHours() + ':' + date.getMinutes()
       })
     }
   }
@@ -28,18 +29,42 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/core/variable";
 
+$form-height : 60px;
 .chat-form {
-  height: $medium-pad;
-  background-color: #DDD;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  background-color: $color-1;
+  width: calc(100% - 40px);
   padding: $small-pad;
-  position: absolute;
-  bottom: $border-w;
-  width: 100%;
+  border-top: $border-w solid black;
+  &__form {
+    border: $border-w solid black;
+    height: $form-height;
+    display: block;
+    position: relative;
+  }
   &__input {
-    height: 30px;
+    height: $form-height;
+    border: 0;
+    background-color: transparent;
+    width: 100%;
+    padding: 0 $small-pad;
+    font-family: $main-font;
+    width: calc(100% - 120px);
   }
   &__submit {
-    height: 30px;
+    float: right;
+    height: $form-height;
+    border: 0;
+    background-color: black;
+    color: white;
+    font-family: $main-font;
+    text-transform: uppercase;
+    padding: 0 $small-pad;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
 </style>

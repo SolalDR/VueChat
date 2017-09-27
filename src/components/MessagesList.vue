@@ -1,5 +1,5 @@
 <template>
-  <div class="messages-list">
+  <div class="messages">
     <message v-for="message in messages" :message="message"></message>
   </div>
 </template>
@@ -17,7 +17,14 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="stylus" scoped>
-h1
-  color green
+<style lang="scss" scoped>
+
+@import "../styles/core/variable";
+
+.messages {
+	height: 300px;
+	overflow: scroll;
+	padding: $small-pad;
+}
+
 </style>

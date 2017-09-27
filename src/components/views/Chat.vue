@@ -1,7 +1,8 @@
 <template>
   <main class="chat center">
     <users-list :users="store.users"></users-list>
-    <div class="body">
+    <div class="chat__body">
+        <h2 class="chat__title">Chat</h2>
         <messages-list :messages="store.messages"></messages-list>
         <form-chat @save-message="onSaveMessage"></form-chat>
     </div>
@@ -18,6 +19,7 @@ export default {
   methods: {
     onSaveMessage: function (message) {
       message.author = this.store.user
+      message.distant = false
       this.store.messages.push(message)
     }
   },
@@ -30,16 +32,26 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<style lang="scss">
 @import "../../styles/core/variable";
 
-.body {
+.chat {
+  &__body {
   width: calc(100% - 300px);
   margin-left: 32px;
   float: left;
   border: $border-w solid black;
   position: relative;
   background-color: $color-1; 
+  min-height: 500px;
+  }
+  &__title {
+    font-size: $size-big; 
+    padding: $small-pad;
+    border-bottom: $border-w solid black;
+  }
 }
+  
+
 
 </style>
