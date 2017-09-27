@@ -1,6 +1,6 @@
 <template>
   <div class="message" :class="side">
-  	<user v-if="!message.type" :user="message.author"></user>	
+  	<user v-if="!message.type" :user="message.author" :date="date"></user>	
     <p class="message__content">{{ message.content }}</p>
   </div>
 </template>
@@ -18,9 +18,11 @@ export default {
         } else {
           return 'message--left'
         }
-      },
-      set: function () {
-
+      }
+    },
+    date: {
+      get: function () {
+        return this.message.date.getHours() + ':' + this.message.date.getMinutes()
       }
     }
   },

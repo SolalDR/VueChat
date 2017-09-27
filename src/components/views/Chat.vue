@@ -1,6 +1,8 @@
 <template>
   <main class="chat center">
-    <users-list :users="store.users"></users-list>
+    <div>
+      <users-list :users="store.users"></users-list>
+    </div>
     <div class="chat__body">
         <h2 class="chat__title">Chat</h2>
         <messages-list :messages="store.messages"></messages-list>

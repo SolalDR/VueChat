@@ -1,13 +1,13 @@
 <template>
   <div class="user">
     <img class="user__profil" :src="avatarFormat">
-    <p class="user__name">{{ user.name }}</p>
+    <p class="user__name">{{ user.name }}<span v-if="date"> // {{ date }}</span></p>
   </div>
 </template>
 
 <script>
   export default {
-    props: ['user'],
+    props: ['user', 'date'],
     computed: {
       avatarFormat: {
         get: function () {

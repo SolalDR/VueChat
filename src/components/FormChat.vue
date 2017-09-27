@@ -19,7 +19,7 @@ export default {
       var date = new Date()
       this.$emit('save-message', {
         content: this.input,
-        date: date.getHours() + ':' + date.getMinutes()
+        date: date
       })
       this.input = ''
     }
