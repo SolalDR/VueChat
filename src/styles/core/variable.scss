@@ -1,0 +1,40 @@
+//Sizes
+$small-pad : 16px;
+$medium-pad : 32px;
+$big-pad : 64px;
+$sidebar-w : 300px;
+
+$input-width: 120px;
+$input-height: 25px;
+$border-w: 4px;
+
+$size-small: 13px;
+$size-big: 20px;
+
+
+//Colors
+$color-1: #EEE;
+$color-1-light: lighten($color-1, 15%);
+$color-1-dark: darken($color-1, 15%);
+
+$color-2: #ffcd38;
+$color-2-light: lighten($color-2, 15%);
+$color-2-dark: darken($color-2, 15%);
+
+$color-3: #ffcd38;
+$color-3-light: lighten($color-3, 15%);
+$color-3-dark: darken($color-3, 15%);
+
+$color-4: #ffcd38;
+$color-4-light: lighten($color-4, 15%);
+$color-4-dark: darken($color-4, 15%);
+
+$color-danger : #ed4343;
+$color-success : #ed4343;
+
+
+//Fonts
+$main-font: "Roboto";
+$header-height: 60px;
+$radius: 6px;
+
