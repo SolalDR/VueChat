@@ -10,6 +10,9 @@
       <a @click="emojiOpen" class="chat__action chat__action-emoji" href="#"></a>
       <a @click="sendWizz" class="chat__action chat__action-wizz" href="#"></a>
     </div>
+    <audio src="/static/wizz.wav" autostart="0" preload="auto" id="player">
+      <p>Your browser does not support the <code>audio</code> element.</p>
+    </audio>
   </main>
 </template>
 
@@ -36,6 +39,7 @@ export default {
       var self = this
       if (!this.$el.className.match('wizz')) {
         this.$el.className += ' wizz'
+        this.$el.querySelector('#player').play()
         setTimeout(function () {
           self.$el.className = self.$el.className.replace('wizz', '')
         }, 600)
