@@ -1,6 +1,9 @@
 <template>
   <div class="users-list">
-    <user v-for="user in users" :user="user"></user>
+    <h2 class="users-list__title">Utilisateurs</h2>
+    <div class="users-list__container">
+        <user v-for="user in users" :user="user"></user>
+    </div>
   </div>
 </template>
 
@@ -20,12 +23,18 @@ export default {
 @import "../styles/core/variable";
 
 .users-list {
-  background-color: white;
+  background-color: $color-1;
   width: $sidebar-w;
-  padding: $medium-pad;
   border: 4px solid black;
-  padding: 30px;
   box-sizing: border-box;
+  .users-list__container {
+    padding:$small-pad;
+  }
+  .users-list__title {
+    text-align: left;
+    padding: $small-pad;
+    border-bottom: $border-w solid black;
+  }
 }
 
 </style>

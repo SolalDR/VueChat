@@ -39,6 +39,7 @@ export default {
   float: left;
   border: $border-w solid black;
   position: relative;
+  background-color: $color-1; 
 }
 
 </style>

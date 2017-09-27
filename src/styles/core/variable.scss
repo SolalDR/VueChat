@@ -1,5 +1,5 @@
 //Sizes
-$small-pad : 16px;
+$small-pad : 20px;
 $medium-pad : 32px;
 $big-pad : 64px;
 $sidebar-w : 300px;
@@ -8,12 +8,12 @@ $input-width: 120px;
 $input-height: 25px;
 $border-w: 4px;
 
-$size-small: 13px;
-$size-big: 20px;
+$size-small: 14px;
+$size-big: 16px;
 
 
 //Colors
-$color-1: #EEE;
+$color-1: #EBEBEB;
 $color-1-light: lighten($color-1, 15%);
 $color-1-dark: darken($color-1, 15%);
 
@@ -34,7 +34,7 @@ $color-success : #ed4343;
 
 
 //Fonts
-$main-font: "Roboto";
+$main-font: "Apple";
 $header-height: 60px;
 $radius: 6px;
 

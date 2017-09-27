@@ -46,7 +46,12 @@ export default {
 @import "styles/core/variable";
 @import "styles/core/mixin";
 @import "styles/core/grid-S";
-
+@import "styles/core/font";
+body {
+  background-image: url("./assets/bg_trame.png");
+  background-size: 3px;
+  font-family: $main-font;
+}
 .center {
   display: flex;
   margin: 30px;
@@ -55,6 +60,11 @@ export default {
   max-width: 1300px;
   margin: auto;
   margin-top: 100px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 16px;
+  text-transform: uppercase;
 }
 
 </style>
