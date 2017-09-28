@@ -16,12 +16,8 @@ export default {
   },
   methods: {
     onSubmit: function (e) {
-      var date = new Date()
       if (this.input !== '') {
-        this.$emit('save-message', {
-          content: this.input,
-          date: date
-        })
+        this.$emit('send-message', { content: this.input })
         this.input = ''
       }
     }
@@ -55,6 +51,7 @@ $form-height : 60px;
     padding: 0 $small-pad;
     font-family: $main-font;
     width: calc(100% - 120px);
+    font-size: $size-small;
   }
   &__submit {
     float: right;
@@ -67,6 +64,7 @@ $form-height : 60px;
     padding: 0 $small-pad;
     position: absolute;
     top: 0;
+    font-size: $size-small;
     right: 0;
   }
 }

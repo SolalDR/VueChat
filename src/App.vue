@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import UserManage from './UserManage.js'
+import UserManager from './UserManager.js'
 
 // A supprimer après prod
 function getRandom (tab) {
@@ -17,8 +17,8 @@ function getRandom (tab) {
 
 export default {
   data: function () {
-    UserManage.initCountAvatar()
-    var users = UserManage.seeds()
+    UserManager.initCountAvatar()
+    var users = UserManager.seeds()
     var messages = [{
       date: new Date(),
       content: 'Hello',
@@ -41,7 +41,7 @@ export default {
         users: users,
         user: null
       },
-      userManager: UserManage
+      userManager: UserManager
     }
   },
   methods: {
@@ -53,6 +53,18 @@ export default {
     },
     simulateUser: function () {
       this.userManager.generateUser('test', {})
+    }
+  },
+  computed: {
+    users: {
+      get: function () {
+        return this.store.users
+      }
+    }
+  },
+  watch: {
+    users: function (val) {
+      console.log(val)
     }
   },
   created: function (val, old) {

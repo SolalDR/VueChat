@@ -48,9 +48,10 @@ export default {
     transform: translateX(-50%) translateY(-50%);
     padding-bottom: 50px;
     &__title {
-      display: block; 
+      display: block;
       text-align: center;
       margin-bottom: $medium-pad;
+      font-size: $size-big;
     }
     &__form {
       border: $border-w solid black;
@@ -65,6 +66,7 @@ export default {
       padding: 0 $small-pad;
       font-family: $main-font;
       width: calc(100% - 120px);
+      font-size: $size-small;
     }
 
 
@@ -80,11 +82,12 @@ export default {
       position: absolute;
       top: 0;
       right: 0;
+      font-size: $size-small;
     }
   }
   .vertical-center {
-    position: fixed; 
-    top:40%; 
+    position: fixed;
+    top:40%;
     left: 50%;
     transform: translateY(-50%) translateX(-50%);
   }

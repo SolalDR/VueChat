@@ -34,6 +34,7 @@ export default {
     text-align: left;
     padding: $small-pad;
     border-bottom: $border-w solid black;
+    font-size: $size-big;
   }
 }
 

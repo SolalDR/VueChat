@@ -42,7 +42,7 @@ export default {
 
 .messages {
 	height: 300px;
-	overflow: scroll;
+	overflow-y: scroll;
 	padding: $small-pad;
 }
 

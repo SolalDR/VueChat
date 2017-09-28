@@ -6,13 +6,19 @@
     <div class="chat__body">
         <h2 class="chat__title">Chat</h2>
         <messages-list :messages="store.messages"></messages-list>
-        <form-chat @save-message="onMessageForm"></form-chat>
+        <form-chat @send-message="sendMessage"></form-chat>
     </div>
     <div class="chat__actions">
       <a @click.prevent="emojiOpen" class="chat__action chat__action-emoji" href="#"></a>
       <a @click.prevent="sendWizz" class="chat__action chat__action-wizz" href="#"></a>
     </div>
-    <audio src="/static/wizz.wav" autostart="0" preload="auto" id="player">
+    <audio src="/static/wizz.wav" autostart="0" preload="auto" id="wizz">
+      <p>Your browser does not support the <code>audio</code> element.</p>
+    </audio>
+    <audio src="/static/send.wav" autostart="0" preload="auto" id="send">
+      <p>Your browser does not support the <code>audio</code> element.</p>
+    </audio>
+    <audio src="/static/receive.wav" autostart="0" preload="auto" id="receive">
       <p>Your browser does not support the <code>audio</code> element.</p>
     </audio>
   </main>
@@ -22,41 +28,47 @@
 import FormChat from '../FormChat'
 import MessagesList from '../MessagesList'
 import UsersList from '../UsersList'
+import SoundManage from '../../SoundManage'
 
 export default {
   props: ['store'],
   methods: {
-    saveMessage: function (message) {
-      this.store.messages.push(message)
-    },
-    onMessageForm: function (message) {
+
+    // callback FormChat add a new message emit from current_user
+    sendMessage: function (message) {
       message.author = this.store.user
       message.distant = false
-      this.saveMessage(message)
+      message.date = new Date()
+      if (message.type !== 'wizz') SoundManage.play('send')
+      this.store.messages.push(message)
     },
+
+    // callback socketIo message
+    receiveMessage: function () {
+
+    },
+
     emojiOpen: function () {
 
     },
+
+    // Create new message of type wizz
+    sendWizz: function () {
+      var message = { content: 'Vous avez envoyé un wizz', type: 'wizz' }
+      this.sendMessage(message)
+      this.wizz() // Set animation
+    },
+
+    // set animation wizz
     wizz: function () {
       var self = this
       if (!this.$el.className.match('wizz')) {
         this.$el.className += ' wizz'
-        this.$el.querySelector('#player').play()
+        SoundManage.play('wizz')
         setTimeout(function () {
           self.$el.className = self.$el.className.replace('wizz', '')
         }, 600)
       }
-    },
-    sendWizz: function () {
-      var message = {
-        author: this.store.user,
-        content: 'Vous avez envoyé un wizz',
-        type: 'wizz',
-        distant: false,
-        date: new Date()
-      }
-      this.saveMessage(message)
-      this.wizz()
     }
   },
   components: {
@@ -70,6 +82,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 @import "../../styles/core/variable";
+@import "../../styles/core/mixin";
+
 
 .chat {
   &__body {
@@ -78,11 +92,11 @@ export default {
   float: left;
   border: $border-w solid black;
   position: relative;
-  background-color: $color-1; 
+  background-color: $color-1;
   min-height: 500px;
   }
   &__title {
-    font-size: $size-big; 
+    font-size: $size-big;
     padding: $small-pad;
     border-bottom: $border-w solid black;
   }
@@ -97,10 +111,17 @@ export default {
     border: $border-w solid black;
     margin-bottom: 30px;
     background-position: center;
-    background-repeat: no-repeat; 
+    background-repeat: no-repeat;
     background-size: 60%;
     display: block;
     background-color: $color-1;
+    box-shadow: 0 0 0 black;
+    @include transition(.2s);
+    @include transform(translateX(0) translateY(0) scale(1));
+    &:hover {
+      box-shadow: 4px 4px 0 black;
+      @include transform(translateX(-3px) translateY(-3px) scale(1.05));
+    }
     &-emoji {
       background-image: url("/static/icons/Smiley.svg");
     }
@@ -111,8 +132,8 @@ export default {
 }
 
 .chat.wizz .chat__body {
-  animation-name: wizz; 
-  animation-duration: .1s; 
+  animation-name: wizz;
+  animation-duration: .1s;
   animation-iteration-count: infinite;
 }
 
@@ -130,7 +151,7 @@ export default {
     transform: translateX(0);
   }
 }
-  
+
 
 
 </style>
