@@ -1,9 +1,10 @@
 <template>
-  <main class='login center'>
-    <form @submit.prevent='onSubmit'>
-      <p v-if="error">Le username est invalide</p>
-      <input id="username" v-model="username" type='text'>
-      <input id="submit" type='submit' value="connexion">
+  <main class='login center vertical-center'>
+    <h2 class="login__title">Connexion</h2>
+    <form class="login__form" @submit.prevent='onSubmit'>
+      <p class="error" v-if="error">Le username est invalide</p>
+      <input class="login__username" id="username" v-model="username" type='text'>
+      <input class="login__submit" id="submit" type='submit' value="connexion">
     </form>
   </main>
 </template>
@@ -32,6 +33,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+  @import "../../styles/core/variable";
+  $form-height: 40px;
   .login {
     width: 500px;
     position: fixed;
@@ -40,21 +43,55 @@ export default {
     box-shadow: 0px -5px rgba(0,0,0,.2);
     top: 50%;
     left: 50%;
+    display: block;
+    position: relative;
     transform: translateX(-50%) translateY(-50%);
-    form {
-      input#name {
-        width: 100%;
-        padding: 5px;
-      }
-      #submit {
-        background-color: black;
-        color: white;
-        border: 0;
-        padding: 10px;
-        margin: auto;
-        display: block;
-        margin-top: 32px;
-      }
+    padding-bottom: 50px;
+    &__title {
+      display: block; 
+      text-align: center;
+      margin-bottom: $medium-pad;
     }
+    &__form {
+      border: $border-w solid black;
+      position: relative;
+    }
+
+    &__username {
+      height: $form-height;
+      border: 0;
+      background-color: transparent;
+      width: 100%;
+      padding: 0 $small-pad;
+      font-family: $main-font;
+      width: calc(100% - 120px);
+    }
+
+
+    &__submit {
+      float: right;
+      height: $form-height;
+      border: 0;
+      background-color: black;
+      color: white;
+      font-family: $main-font;
+      text-transform: uppercase;
+      padding: 0 $small-pad;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+  .vertical-center {
+    position: fixed; 
+    top:40%; 
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+  }
+  .error {
+    position: absolute;
+    bottom: -26px;
+    text-align: center;
+    width: 100%;
   }
 </style>

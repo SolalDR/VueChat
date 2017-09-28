@@ -1,12 +1,15 @@
 <template>
   <div id="app">
     <div class="container">
+      <a @click.prevent="simulateUser" href="">Simulate User</a>
       <router-view :store="store" @login="onLogin"></router-view>
     </div>
   </div>
 </template>
 
 <script>
+import UserManage from './UserManage.js'
+
 // A supprimer après prod
 function getRandom (tab) {
   return tab[Math.floor(Math.random() * tab.length)]
@@ -14,11 +17,8 @@ function getRandom (tab) {
 
 export default {
   data: function () {
-    var users = [
-        { name: 'Franco', avatar: 1 },
-        { name: 'Francine', avatar: 2 },
-        { name: 'Jack', avatar: 3 }
-    ]
+    UserManage.initCountAvatar()
+    var users = UserManage.seeds()
     var messages = [{
       date: new Date(),
       content: 'Hello',
@@ -39,28 +39,25 @@ export default {
       store: {
         messages: messages,
         users: users,
-        user: {
-          name: 'Solal',
-          distant: false,
-          avatar: 3
-        }
-      }
+        user: null
+      },
+      userManager: UserManage
     }
   },
   methods: {
-
     onLogin: function (name) {
-      this.store.user = name
+      this.store.user = this.userManager.generateUser(name, {
+        distant: false
+      })
       this.$router.push({ path: '/' })
-      console.log('Login')
     },
-
-    findUserByName: function (name) {
-      for (var i = 0; i < this.users.length; i++) {
-        if (this.users[i].name === name) {
-          return this.users[i]
-        }
-      }
+    simulateUser: function () {
+      this.userManager.generateUser('test', {})
+    }
+  },
+  created: function (val, old) {
+    if (!this.store.user) {
+      this.$router.push({path: '/login'})
     }
   }
 }
