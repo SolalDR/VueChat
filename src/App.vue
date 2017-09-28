@@ -14,7 +14,7 @@ import { bus } from './main.js'
 export default {
   data: function () {
     UserManager.initCountAvatar()
-    var users = UserManager.seeds()
+    var users = UserManager.users
     return {
       store: {
         messages: [],
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     simulateUser: function () {
-      this.userManager.generateUser('test', {})
+      this.userManager.generateUser({username: 'test'}, {})
     }
   },
   computed: {
@@ -43,9 +43,7 @@ export default {
   },
   created: function (val, old) {
     bus.$on('userConnected', (user) => {
-      this.store.user = this.userManager.generateUser(user, {
-        distant: false
-      })
+      this.store.user = this.userManager.generateUser(user, { distant: false })
       this.$router.push({ path: '/' })
     })
     if (!this.store.user) {

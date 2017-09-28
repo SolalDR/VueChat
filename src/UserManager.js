@@ -38,9 +38,6 @@ export default {
       this.users.push(user)
       return user
     }
-  },
-  seeds: function () {
-    return this.users
   }
 }
 
