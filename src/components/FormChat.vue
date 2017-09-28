@@ -17,11 +17,13 @@ export default {
   methods: {
     onSubmit: function (e) {
       var date = new Date()
-      this.$emit('save-message', {
-        content: this.input,
-        date: date
-      })
-      this.input = ''
+      if (this.input !== '') {
+        this.$emit('save-message', {
+          content: this.input,
+          date: date
+        })
+        this.input = ''
+      }
     }
   }
 }
