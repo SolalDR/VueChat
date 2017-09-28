@@ -20,6 +20,7 @@ export default {
     Message
   },
   methods: {
+    // Scroll to end of message-list
     scrollToEnd: function () {
       this.$el.scrollTop = this.$el.scrollHeight
     }

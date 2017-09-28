@@ -2,9 +2,16 @@ export default {
   nbAvatar: 8,
   countAvatar: [],
   users: [],
-  findUserByName: function (name) {
+  findUserByName: function (username) {
     for (var i = 0; i < this.users.length; i++) {
-      if (this.users[i].name === name) {
+      if (this.users[i].username === username) {
+        return this.users[i]
+      }
+    }
+  },
+  findUserById: function (id) {
+    for (var i = 0; i < this.users.length; i++) {
+      if (this.users[i].id === id) {
         return this.users[i]
       }
     }
@@ -24,22 +31,15 @@ export default {
     this.countAvatar[rank]++
     return rank + 1
   },
-  generateUser: function (name, config) {
-    if (name) {
-      var user = {
-        name: name,
-        distant: config.distant,
-        avatar: this.getNextAvatar()
-      }
+  generateUser: function (user, config) {
+    if (user) {
+      user.distant = config.distant
+      user.avatar = this.getNextAvatar()
       this.users.push(user)
       return user
     }
   },
   seeds: function () {
-    this.generateUser('Franco', {})
-    this.generateUser('Francine', {})
-    this.generateUser('Jack', {})
-    this.generateUser('Joe', {})
     return this.users
   }
 }

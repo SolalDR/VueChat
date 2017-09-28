@@ -6,7 +6,7 @@
     <div class="chat__body">
         <h2 class="chat__title">Chat</h2>
         <messages-list :messages="store.messages"></messages-list>
-        <form-chat @send-message="sendMessage"></form-chat>
+        <form-chat @send-message="serializeMessage"></form-chat>
     </div>
     <div class="chat__actions">
       <a @click.prevent="emojiOpen" class="chat__action chat__action-emoji" href="#"></a>
@@ -29,23 +29,53 @@ import FormChat from '../FormChat'
 import MessagesList from '../MessagesList'
 import UsersList from '../UsersList'
 import SoundManage from '../../SoundManage'
+import { bus } from '../../main.js'
 
 export default {
   props: ['store'],
   methods: {
 
     // callback FormChat add a new message emit from current_user
-    sendMessage: function (message) {
+    serializeMessage: function (message) {
       message.author = this.store.user
       message.distant = false
       message.date = new Date()
       if (message.type !== 'wizz') SoundManage.play('send')
+
+      var messageFormat = {
+        body: message.content,
+        createdAt: message.date.getTime(),
+        isBot: false,
+        author: {
+          avatarUrl: null,
+          id: this.store.user.id,
+          username: this.store.user.username
+        }
+      }
+      if (message.type === 'wizz') messageFormat.isBot = true
+      this.sendMessage(messageFormat)
       this.store.messages.push(message)
     },
 
     // callback socketIo message
-    receiveMessage: function () {
+    receiveMessage: function (message) {
+      var messageFormat = {
+        content: message.body,
+        date: new Date(message.createdAt),
+        type: (message.isBot) ? 'wizz' : '',
+        author: {
+          name: message.author.username
+        },
+        distant: true
+      }
 
+      // Code to homogene date, author, distant, type, content
+      if (messageFormat.type === 'wizz') {
+        messageFormat = this.receiveWizz(message)
+      } else {
+        // SoundManage.send('receive')
+      }
+      this.store.messages.push(messageFormat)
     },
 
     emojiOpen: function () {
@@ -54,9 +84,16 @@ export default {
 
     // Create new message of type wizz
     sendWizz: function () {
-      var message = { content: 'Vous avez envoyé un wizz', type: 'wizz' }
-      this.sendMessage(message)
+      var message = { content: 'Wizz', type: 'wizz' }
+      this.serializeMessage(message)
       this.wizz() // Set animation
+    },
+
+    receiveWizz: function (message) {
+      message.content = 'Vous avez envoyé un wizz'
+      message.type = 'wizz'
+      this.wizz() // Set animation
+      return message
     },
 
     // set animation wizz
@@ -75,6 +112,11 @@ export default {
     FormChat,
     MessagesList,
     UsersList
+  },
+  created: function () {
+    bus.$on('newMessage', (message) => {
+      this.receiveMessage(message)
+    })
   }
 }
 </script>

@@ -6,10 +6,15 @@
       <input class="login__username" id="username" v-model="username" type='text'>
       <input class="login__submit" id="submit" type='submit' value="connexion">
     </form>
+    <audio src="/static/login.aiff" autostart="0" preload="auto" id="login">
+      <p>Your browser does not support the <code>audio</code> element.</p>
+    </audio>
   </main>
 </template>
 
 <script>
+// import SoundManage from '../../SoundManage'
+
 export default {
   data: function () {
     return {
@@ -20,7 +25,8 @@ export default {
   methods: {
     onSubmit: function (e) {
       if (this.username.match(/^\w{1,15}$/)) {
-        this.$emit('login', this.username)
+        // SoundManage.send('login')
+        this.connect(this.username)
       } else {
         this.error = true
       }
@@ -68,7 +74,6 @@ export default {
       width: calc(100% - 120px);
       font-size: $size-small;
     }
-
 
     &__submit {
       float: right;

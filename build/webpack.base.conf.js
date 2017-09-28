@@ -58,6 +58,10 @@ module.exports = {
         loader: 'json'
       },
       {
+        test: /\.json$/,
+        loader: "json-loader"
+      },
+      {
         test: /\.svg(\?.*)?$/,
         loader: 'svg-sprite?' + JSON.stringify({
           name: '[name]_[hash]',

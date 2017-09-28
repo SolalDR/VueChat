@@ -2,42 +2,22 @@
   <div id="app">
     <div class="container">
       <a @click.prevent="simulateUser" href="">Simulate User</a>
-      <router-view :store="store" @login="onLogin"></router-view>
+      <router-view :store="store"></router-view>
     </div>
   </div>
 </template>
 
 <script>
 import UserManager from './UserManager.js'
-
-// A supprimer après prod
-function getRandom (tab) {
-  return tab[Math.floor(Math.random() * tab.length)]
-}
+import { bus } from './main.js'
 
 export default {
   data: function () {
     UserManager.initCountAvatar()
     var users = UserManager.seeds()
-    var messages = [{
-      date: new Date(),
-      content: 'Hello',
-      author: getRandom(users)
-    },
-    {
-      date: new Date(),
-      content: 'Hello',
-      author: getRandom(users)
-    },
-    {
-      date: new Date(),
-      content: 'Hello',
-      author: getRandom(users)
-    }]
-
     return {
       store: {
-        messages: messages,
+        messages: [],
         users: users,
         user: null
       },
@@ -45,12 +25,6 @@ export default {
     }
   },
   methods: {
-    onLogin: function (name) {
-      this.store.user = this.userManager.generateUser(name, {
-        distant: false
-      })
-      this.$router.push({ path: '/' })
-    },
     simulateUser: function () {
       this.userManager.generateUser('test', {})
     }
@@ -68,6 +42,12 @@ export default {
     }
   },
   created: function (val, old) {
+    bus.$on('userConnected', (user) => {
+      this.store.user = this.userManager.generateUser(user, {
+        distant: false
+      })
+      this.$router.push({ path: '/' })
+    })
     if (!this.store.user) {
       this.$router.push({path: '/login'})
     }

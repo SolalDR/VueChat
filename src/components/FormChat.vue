@@ -15,13 +15,35 @@ export default {
     }
   },
   methods: {
+    // Callback submit form
     onSubmit: function (e) {
       if (this.input !== '') {
         this.$emit('send-message', { content: this.input })
         this.input = ''
       }
+    },
+
+    convert: function (val) {
+      var matched = val.match(/:.+?:/)
+      if (matched && matched.length > 0) {
+        for (var i = 0; i < matched.length; i++) {
+          var newVal = val.replace(new RegExp(matched[i]), window.emojione.toImage(matched[i]))
+        }
+        if (newVal) {
+          return newVal
+        }
+      }
+    }
+  },
+
+  computed: {
+    content: {
+      get: function () {
+        return this.convert(this.input)
+      }
     }
   }
+
 }
 </script>
 
