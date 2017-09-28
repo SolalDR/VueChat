@@ -9,8 +9,8 @@
         <form-chat @save-message="onMessageForm"></form-chat>
     </div>
     <div class="chat__actions">
-      <a @click="emojiOpen" class="chat__action chat__action-emoji" href="#"></a>
-      <a @click="sendWizz" class="chat__action chat__action-wizz" href="#"></a>
+      <a @click.prevent="emojiOpen" class="chat__action chat__action-emoji" href="#"></a>
+      <a @click.prevent="sendWizz" class="chat__action chat__action-wizz" href="#"></a>
     </div>
     <audio src="/static/wizz.wav" autostart="0" preload="auto" id="player">
       <p>Your browser does not support the <code>audio</code> element.</p>
