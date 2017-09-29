@@ -25,6 +25,12 @@ export default {
     socket.on('user joined', function (response) {
       if (response.new.id !== store.user.id) {
         bus.$emit('createUser', response.new)
+        store.messages.push({
+          body: response.new.username + ' vient de se connecter',
+          isBot: true,
+          createdAt: new Date().getTime(),
+          author: response.new
+        })
       }
     })
 

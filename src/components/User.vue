@@ -39,11 +39,6 @@
           this.user.avatar = this.$store.users[i].avatar
         }
       }
-    },
-    watch: {
-      user: function (val) {
-        console.log(val.typing)
-      }
     }
   }
 </script>
