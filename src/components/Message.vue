@@ -1,6 +1,6 @@
 <template>
   <div class="message" :class="side">
-  	<user v-if="!message.type" :user="message.author" :date="date"></user>
+  	<user v-if="!message.isBot" :user="message.author" :date="date"></user>
     <p class="message__content">{{ message.body }}</p>
   </div>
 </template>
@@ -14,8 +14,10 @@ export default {
     side: {
       get: function () {
         if (this.message.author.id === this.$store.user.id) {
+          if (this.message.isBot !== true) this.soundPlay('send')
           return 'message--right'
         } else {
+          if (this.message.isBot !== true) this.soundPlay('receive')
           return 'message--left'
         }
       }

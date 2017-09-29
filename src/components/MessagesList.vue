@@ -1,6 +1,6 @@
 <template>
   <div class="messages">
-    <message v-for="message in messages" :message="message"></message>
+    <message v-for="message in $store.messages" :message="message"></message>
   </div>
 </template>
 
@@ -8,11 +8,10 @@
 import Message from './Message'
 
 export default {
-  props: ['messages'],
   computed: {
     messageCount: {
       get: function () {
-        return this.messages.length
+        return this.$store.messages.length
       }
     }
   },
@@ -45,6 +44,21 @@ export default {
 	height: 300px;
 	overflow-y: scroll;
 	padding: $small-pad;
+  height: calc(100vh - 421px);
+  overflow-x: hidden;
+
+}
+
+.messages::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: transparent;
+}
+.messages::-webkit-scrollbar {
+  width: 6px;
+  background-color: transparent;
+}
+.messages::-webkit-scrollbar-thumb {
+  background-color: #000000;
 }
 
 </style>

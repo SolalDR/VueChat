@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <div class="container">
-      <a @click.prevent="simulateUser" href="">Simulate User</a>
-      <router-view :store="store"></router-view>
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -30,11 +29,6 @@ export default {
       }
     }
   },
-  watch: {
-    users: function (val) {
-      console.log(val)
-    }
-  },
   created: function (val, old) {
     UserManager.initCountAvatar()
     var users = UserManager.users
@@ -44,6 +38,25 @@ export default {
       this.$store.user = this.userManager.generateUser(user, { distant: false })
       this.$router.push({ path: '/' })
     })
+
+    bus.$on('createUsers', (users) => {
+      for (var i = 0; i < users.length; i++) {
+        this.userManager.generateUser(users[i])
+      }
+    })
+
+    bus.$on('createUser', (user) => {
+      this.userManager.generateUser(user)
+    })
+
+    bus.$on('startTyping', (user) => {
+      this.userManager.startTyping(user)
+    })
+
+    bus.$on('stopTyping', (user) => {
+      this.userManager.stopTyping(user)
+    })
+
     if (!this.$store.user) {
       this.$router.push({path: '/login'})
     }

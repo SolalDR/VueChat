@@ -31,13 +31,24 @@ export default {
     this.countAvatar[rank]++
     return rank + 1
   },
+
+  startTyping: function (user) {
+    var u = this.findUserById(user.id)
+    u.typing = true
+    console.log(u.username + ' start typing')
+  },
+
+  stopTyping: function (user) {
+    var u = this.findUserById(user.id)
+    u.typing = false
+    console.log(u.username + ' stop typing')
+  },
+
   generateUser: function (user, config) {
-    if (user) {
-      user.distant = config.distant
-      user.avatar = this.getNextAvatar()
-      this.users.push(user)
-      return user
-    }
+    user.avatar = this.getNextAvatar()
+    user.typing = false
+    this.users.push(user)
+    return user
   }
 }
 

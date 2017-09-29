@@ -5,14 +5,14 @@ import Bourgeon from 'bourgeon'
 import App from './App'
 import VueSession from 'vue-session'
 import model from './model'
-// import soundManage from './SoundManage'
+import soundManage from './SoundManage'
 
 Vue.use(Bourgeon, {
   locales: ['fr', 'en']
 })
 
 Vue.use(VueSession)
-// Vue.use(soundManage)
+Vue.use(soundManage)
 
 Vue.use(model, {
   api: 'http://bddi-chat2017.herokuapp.com'

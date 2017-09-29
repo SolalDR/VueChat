@@ -2,6 +2,7 @@
   <main class="chat center">
     <div>
       <users-list :users="$store.users"></users-list>
+      <a @click.prevent='disconnectClick' class='action__disconnect'>Disconnect</a>
     </div>
     <div class="chat__body">
         <h2 class="chat__title">Chat</h2>
@@ -9,8 +10,7 @@
         <form-chat @send-message="formMessage"></form-chat>
     </div>
     <div class="chat__actions">
-      <a @click.prevent="emojiOpen" class="chat__action chat__action-emoji" href="#"></a>
-      <a @click.prevent="sendWizz" class="chat__action chat__action-wizz" href="#"></a>
+      <a @click.prevent="wizzClick" class="chat__action chat__action-wizz" href="#"></a>
     </div>
     <audio src="/static/wizz.wav" autostart="0" preload="auto" id="wizz">
       <p>Your browser does not support the <code>audio</code> element.</p>
@@ -28,7 +28,6 @@
 import FormChat from '../FormChat'
 import MessagesList from '../MessagesList'
 import UsersList from '../UsersList'
-import SoundManage from '../../SoundManage'
 import { bus } from '../../main.js'
 
 export default {
@@ -37,46 +36,40 @@ export default {
 
     // callback FormChat add a new message emit from current_user
     formMessage: function (content) {
-      var message = {
-        body: content,
-        author: Object.assign({}, this.$store.user),
-        createdAt: new Date().getTime(),
-        isBot: false
-      }
-      // if (message.type === 'wizz') messageFormat.isBot = true
-      this.sendMessage(message)
-      this.$store.messages.push(message)
+      this.sendMessage(content)
+    },
+
+    disconnectClick: function () {
+      this.$router.push({path: '/login'})
+      this.disconnect()
     },
 
     // callback socketIo message
     receiveMessage: function (message) {
-      // SoundManage.send('receive')
       this.$store.messages.push(message)
     },
 
     // Create new message of type wizz
-    sendWizz: function () {
-      var message = { content: 'Wizz', type: 'wizz' }
-      this.serializeMessage(message)
-      this.wizz() // Set animation
+    wizzClick: function () {
+      this.createWizz(this.$store.user)
+      var message = {
+        body: 'Vous avez envoyé un wizz',
+        createdAt: new Date().getTime(),
+        author: this.$store.user,
+        isBot: true
+      }
+      this.$store.messages.push(message)
+      this.sendWizz()
     },
 
-    receiveWizz: function (message) {
-      message.content = 'Vous avez envoyé un wizz'
-      message.type = 'wizz'
-      this.wizz() // Set animation
-      return message
-    },
-
-    // set animation wizz
-    wizz: function () {
+    createWizz: function (user) {
       var self = this
       if (!this.$el.className.match('wizz')) {
         this.$el.className += ' wizz'
-        SoundManage.play('wizz')
         setTimeout(function () {
           self.$el.className = self.$el.className.replace('wizz', '')
         }, 600)
+        this.soundPlay('wizz')
       }
     }
   },
@@ -89,8 +82,8 @@ export default {
     if (!this.$store.user.id) {
       this.$router.push({path: '/login'})
     }
-    bus.$on('newMessage', (message) => {
-      this.receiveMessage(message)
+    bus.$on('receiveWizz', (user) => {
+      this.createWizz(user)
     })
   }
 }
@@ -111,6 +104,7 @@ export default {
   position: relative;
   background-color: $color-1;
   min-height: 500px;
+  height: calc(100vh - 200px);
   }
   &__title {
     font-size: $size-big;
@@ -120,7 +114,7 @@ export default {
   &__actions {
     display: block;
     width: 50px;
-    margin-left: $small-pad;
+    margin-left: $medium-pad;
   }
   &__action {
     height: 40px;
@@ -146,6 +140,19 @@ export default {
       background-image: url("/static/icons/Wizz.svg");
     }
   }
+}
+
+.action__disconnect {
+  width: 100%;
+  background: #EBEBEB;
+  display: block;
+  border: $border-w solid black;
+  margin-top: $medium-pad;
+  padding: 15px;
+  box-sizing: border-box;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: $size-big;
 }
 
 .chat.wizz .chat__body {

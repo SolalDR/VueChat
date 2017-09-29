@@ -27,6 +27,8 @@ export default {
   width: $sidebar-w;
   border: 4px solid black;
   box-sizing: border-box;
+  max-height: calc(100vh - 200px - 90px);
+  overflow-y: scroll;
   .users-list__container {
     padding:$small-pad;
   }
@@ -36,6 +38,18 @@ export default {
     border-bottom: $border-w solid black;
     font-size: $size-big;
   }
+}
+
+.users-list::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0);
+  background-color: transparent;
+}
+.users-list::-webkit-scrollbar {
+  width: 6px;
+  background-color: transparent;
+}
+.users-list::-webkit-scrollbar-thumb {
+  background-color: transparent;
 }
 
 .users-list .user {

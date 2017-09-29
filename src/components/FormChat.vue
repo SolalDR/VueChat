@@ -11,7 +11,9 @@
 export default {
   data: function () {
     return {
-      input: ''
+      input: '',
+      lastType: new Date().getTime(),
+      isTyping: false
     }
   },
   methods: {
@@ -35,7 +37,24 @@ export default {
       }
     }
   },
-
+  watch: {
+    input: function () {
+      this.lastType = new Date().getTime()
+      if (this.isTyping === false) {
+        this.typing(true)
+        console.log('Start typing')
+      }
+      this.isTyping = true
+      setTimeout(() => {
+        var date = new Date().getTime()
+        if (date - this.lastType > 2000) {
+          this.typing(false)
+          this.isTyping = false
+          console.log('Stop typing')
+        }
+      }, 2000)
+    }
+  },
   computed: {
     content: {
       get: function () {
