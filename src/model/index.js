@@ -5,20 +5,6 @@ export default {
   install (Vue, options) {
     const socket = io(options.api)
 
-    socket.on('connect', () => {
-      console.log('connect')
-    })
-
-    socket.on('new message', (message) => {
-      if (message.body) {
-        bus.$emit('newMessage', message)
-      }
-    })
-
-    socket.on('user connected', (user) => {
-      bus.$emit('userConnected', user)
-    })
-
     const store = new Vue({
       data: {
         user: {},
@@ -27,7 +13,23 @@ export default {
       }
     })
 
-    Vue.prototype.store = store
+    socket.on('connect', () => {
+      console.log('connect')
+    })
+
+    Vue.prototype.$store = store
+
+    socket.on('new message', (message) => {
+      message = message.body
+      console.log(message)
+      if (message.body && message.author.id !== store.user.id) {
+        bus.$emit('newMessage', message)
+      }
+    })
+
+    socket.on('user connected', (user) => {
+      bus.$emit('userConnected', user)
+    })
 
     Vue.mixin({
       methods: {

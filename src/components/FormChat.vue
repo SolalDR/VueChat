@@ -18,7 +18,7 @@ export default {
     // Callback submit form
     onSubmit: function (e) {
       if (this.input !== '') {
-        this.$emit('send-message', { content: this.input })
+        this.$emit('send-message', this.input)
         this.input = ''
       }
     },

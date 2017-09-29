@@ -1,7 +1,7 @@
 <template>
   <div class="message" :class="side">
   	<user v-if="!message.type" :user="message.author" :date="date"></user>
-    <p class="message__content" v-html="messageFormat"></p>
+    <p class="message__content">{{ message.body }}</p>
   </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
   computed: {
     side: {
       get: function () {
-        if (this.message.distant === false) {
+        if (this.message.author.id === this.$store.user.id) {
           return 'message--right'
         } else {
           return 'message--left'
@@ -22,20 +22,7 @@ export default {
     },
     date: {
       get: function () {
-        return this.message.date.getHours() + ':' + this.message.date.getMinutes()
-      }
-    },
-    messageFormat: {
-      get: function () {
-        var content = this.message.content
-        // window.emojione.toImage('$1')
-        var values = content.match(/(:.+?:)/g)
-        if (values) {
-          for (var i = 0; i < values.length; i++) {
-            content = content.replace(new RegExp(values[i]), window.emojione.toImage(values[i]))
-          }
-        }
-        return content
+        return this.message.createdAt
       }
     }
   },

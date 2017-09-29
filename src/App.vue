@@ -14,13 +14,7 @@ import { bus } from './main.js'
 export default {
   data: function () {
     UserManager.initCountAvatar()
-    var users = UserManager.users
     return {
-      store: {
-        messages: [],
-        users: users,
-        user: null
-      },
       userManager: UserManager
     }
   },
@@ -32,7 +26,7 @@ export default {
   computed: {
     users: {
       get: function () {
-        return this.store.users
+        return this.$store.users
       }
     }
   },
@@ -42,11 +36,15 @@ export default {
     }
   },
   created: function (val, old) {
+    UserManager.initCountAvatar()
+    var users = UserManager.users
+    this.$store.users = users
+
     bus.$on('userConnected', (user) => {
-      this.store.user = this.userManager.generateUser(user, { distant: false })
+      this.$store.user = this.userManager.generateUser(user, { distant: false })
       this.$router.push({ path: '/' })
     })
-    if (!this.store.user) {
+    if (!this.$store.user) {
       this.$router.push({path: '/login'})
     }
   }
@@ -64,6 +62,7 @@ body {
   background-size: 3px;
   font-family: $main-font;
   font-size: $size-small;
+  cursor: url("/static/cursor2.png");
 }
 .center {
   display: flex;

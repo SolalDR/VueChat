@@ -1,5 +1,5 @@
 export default {
-  nbAvatar: 8,
+  nbAvatar: 20,
   countAvatar: [],
   users: [],
   findUserByName: function (username) {

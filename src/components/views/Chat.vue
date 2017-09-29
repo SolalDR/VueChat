@@ -1,12 +1,12 @@
 <template>
   <main class="chat center">
     <div>
-      <users-list :users="store.users"></users-list>
+      <users-list :users="$store.users"></users-list>
     </div>
     <div class="chat__body">
         <h2 class="chat__title">Chat</h2>
-        <messages-list :messages="store.messages"></messages-list>
-        <form-chat @send-message="serializeMessage"></form-chat>
+        <messages-list :messages="$store.messages"></messages-list>
+        <form-chat @send-message="formMessage"></form-chat>
     </div>
     <div class="chat__actions">
       <a @click.prevent="emojiOpen" class="chat__action chat__action-emoji" href="#"></a>
@@ -36,50 +36,22 @@ export default {
   methods: {
 
     // callback FormChat add a new message emit from current_user
-    serializeMessage: function (message) {
-      message.author = this.store.user
-      message.distant = false
-      message.date = new Date()
-      if (message.type !== 'wizz') SoundManage.play('send')
-
-      var messageFormat = {
-        body: message.content,
-        createdAt: message.date.getTime(),
-        isBot: false,
-        author: {
-          avatarUrl: null,
-          id: this.store.user.id,
-          username: this.store.user.username
-        }
+    formMessage: function (content) {
+      var message = {
+        body: content,
+        author: Object.assign({}, this.$store.user),
+        createdAt: new Date().getTime(),
+        isBot: false
       }
-      if (message.type === 'wizz') messageFormat.isBot = true
-      this.sendMessage(messageFormat)
-      this.store.messages.push(message)
+      // if (message.type === 'wizz') messageFormat.isBot = true
+      this.sendMessage(message)
+      this.$store.messages.push(message)
     },
 
     // callback socketIo message
     receiveMessage: function (message) {
-      var messageFormat = {
-        content: message.body,
-        date: new Date(message.createdAt),
-        type: (message.isBot) ? 'wizz' : '',
-        author: {
-          name: message.author.username
-        },
-        distant: true
-      }
-
-      // Code to homogene date, author, distant, type, content
-      if (messageFormat.type === 'wizz') {
-        messageFormat = this.receiveWizz(message)
-      } else {
-        // SoundManage.send('receive')
-      }
-      this.store.messages.push(messageFormat)
-    },
-
-    emojiOpen: function () {
-
+      // SoundManage.send('receive')
+      this.$store.messages.push(message)
     },
 
     // Create new message of type wizz
@@ -114,6 +86,9 @@ export default {
     UsersList
   },
   created: function () {
+    if (!this.$store.user.id) {
+      this.$router.push({path: '/login'})
+    }
     bus.$on('newMessage', (message) => {
       this.receiveMessage(message)
     })
