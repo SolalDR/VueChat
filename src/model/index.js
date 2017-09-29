@@ -45,7 +45,6 @@ export default {
     })
 
     socket.on('typing', function (user) {
-      // bus.$emit('startTyping', user)
       for (var i = 0; i < store.users.length; i++) {
         if (store.users[i].id === user.id) {
           store.users[i].typing = true
@@ -54,7 +53,6 @@ export default {
     })
 
     socket.on('stop typing', function (user) {
-      // bus.$emit('stopTyping', user)
       for (var i = 0; i < store.users.length; i++) {
         if (store.users[i].id === user.id) {
           store.users[i].typing = false

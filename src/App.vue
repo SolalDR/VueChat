@@ -75,7 +75,7 @@ body {
   background-size: 3px;
   font-family: $main-font;
   font-size: $size-small;
-  cursor: url("/static/cursor2.png");
+  cursor: url("/static/cursor.png");
 }
 .center {
   display: flex;
@@ -90,6 +90,10 @@ body {
 
 input {
   outline: none;
+}
+
+input[type='submit'], a {
+  cursor: pointer;
 }
 
 h1, h2, h3, h4, h5, h6 {

@@ -9,6 +9,9 @@
     <audio src="/static/login.aiff" autostart="0" preload="auto" id="login">
       <p>Your browser does not support the <code>audio</code> element.</p>
     </audio>
+    <audio src="/static/error.wav" autostart="0" preload="auto" id="error">
+      <p>Your browser does not support the <code>audio</code> element.</p>
+    </audio>
   </main>
 </template>
 
@@ -25,9 +28,10 @@ export default {
   methods: {
     onSubmit: function (e) {
       if (this.username.match(/^\w{1,15}$/)) {
-        // SoundManage.send('login')
+        this.soundPlay('login')
         this.connect(this.username)
       } else {
+        this.soundPlay('error')
         this.error = true
       }
     }

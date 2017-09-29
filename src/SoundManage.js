@@ -4,7 +4,8 @@ export default {
       wizz: { selector: '#wizz' },
       send: { selector: '#send' },
       receive: { selector: '#receive' },
-      login: { selector: '#login' }
+      login: { selector: '#login' },
+      error: { selector: '#error' }
     }
     Vue.mixin({
       methods: {
