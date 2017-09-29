@@ -31,25 +31,35 @@ import UsersList from '../UsersList'
 import { bus } from '../../main.js'
 
 export default {
-  props: ['store'],
-  methods: {
 
+  props: ['store'],
+
+  components: {
+    FormChat,
+    MessagesList,
+    UsersList
+  },
+
+  created: function () {
+    if (!this.$store.user.id) this.$router.push({path: '/login'})
+    bus.$on('receiveWizz', (user) => {
+      this.createWizz(user)
+    })
+  },
+
+  methods: {
     // callback FormChat add a new message emit from current_user
     formMessage: function (content) {
       this.sendMessage(content)
     },
 
+    // Event button disconnect
     disconnectClick: function () {
       this.$router.push({path: '/login'})
       this.disconnect()
     },
 
-    // callback socketIo message
-    receiveMessage: function (message) {
-      this.$store.messages.push(message)
-    },
-
-    // Create new message of type wizz
+    // Event button wizz
     wizzClick: function () {
       this.createWizz(this.$store.user)
       var message = {
@@ -62,6 +72,7 @@ export default {
       this.sendWizz()
     },
 
+    // Generate animation wiff
     createWizz: function (user) {
       var self = this
       if (!this.$el.className.match('wizz')) {
@@ -72,19 +83,6 @@ export default {
         this.soundPlay('wizz')
       }
     }
-  },
-  components: {
-    FormChat,
-    MessagesList,
-    UsersList
-  },
-  created: function () {
-    if (!this.$store.user.id) {
-      this.$router.push({path: '/login'})
-    }
-    bus.$on('receiveWizz', (user) => {
-      this.createWizz(user)
-    })
   }
 }
 </script>

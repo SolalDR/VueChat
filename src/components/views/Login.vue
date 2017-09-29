@@ -16,17 +16,18 @@
 </template>
 
 <script>
-// import SoundManage from '../../SoundManage'
-
 export default {
+
   data: function () {
     return {
       username: '',
       error: false
     }
   },
+
   methods: {
     onSubmit: function (e) {
+      // If login succeed
       if (this.username.match(/^\w{1,15}$/)) {
         this.soundPlay('login')
         this.connect(this.username)
@@ -36,10 +37,9 @@ export default {
       }
     }
   }
+
 }
 </script>
-
-
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">

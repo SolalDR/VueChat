@@ -9,13 +9,32 @@
 
 <script>
 export default {
+
   data: function () {
     return {
-      input: '',
-      lastType: new Date().getTime(),
-      isTyping: false
+      input: '',                        // String: Value of input
+      lastType: new Date().getTime(),   // Number: Timstamp of last typing event of current user
+      isTyping: false                   // Boolean
     }
   },
+
+  watch: {
+    // Watch input value and update typing
+    input: function () {
+      this.lastType = new Date().getTime()
+      if (this.isTyping === false) this.typing(true) // emit event 'typing'
+      this.isTyping = true
+
+      setTimeout(() => {
+        var date = new Date().getTime()
+        if (date - this.lastType > 2000) {
+          this.typing(false) // emit event 'stop typing'
+          this.isTyping = false
+        }
+      }, 2000)
+    }
+  },
+
   methods: {
     // Callback submit form
     onSubmit: function (e) {
@@ -23,46 +42,8 @@ export default {
         this.$emit('send-message', this.input)
         this.input = ''
       }
-    },
-
-    convert: function (val) {
-      var matched = val.match(/:.+?:/)
-      if (matched && matched.length > 0) {
-        for (var i = 0; i < matched.length; i++) {
-          var newVal = val.replace(new RegExp(matched[i]), window.emojione.toImage(matched[i]))
-        }
-        if (newVal) {
-          return newVal
-        }
-      }
-    }
-  },
-  watch: {
-    input: function () {
-      this.lastType = new Date().getTime()
-      if (this.isTyping === false) {
-        this.typing(true)
-        console.log('Start typing')
-      }
-      this.isTyping = true
-      setTimeout(() => {
-        var date = new Date().getTime()
-        if (date - this.lastType > 2000) {
-          this.typing(false)
-          this.isTyping = false
-          console.log('Stop typing')
-        }
-      }, 2000)
-    }
-  },
-  computed: {
-    content: {
-      get: function () {
-        return this.convert(this.input)
-      }
     }
   }
-
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="message" :class="side">
-  	<user v-if="!message.isBot" :user="message.author" :date="date"></user>
+  	<user v-if="!message.isBot" :user="message.author" :date="message.createdAt"></user>
     <p class="message__content">{{ message.body }}</p>
   </div>
 </template>
@@ -9,9 +9,14 @@
 import User from './User'
 
 export default {
+
   props: ['message'],
+
+  components: { User },
+
   computed: {
     side: {
+      // Return the side of the message in function of author
       get: function () {
         if (this.message.author.id === this.$store.user.id) {
           if (this.message.isBot !== true) this.soundPlay('send')
@@ -21,16 +26,9 @@ export default {
           return 'message--left'
         }
       }
-    },
-    date: {
-      get: function () {
-        return this.message.createdAt
-      }
     }
-  },
-  components: {
-    User
   }
+
 }
 </script>
 

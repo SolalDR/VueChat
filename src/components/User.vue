@@ -7,8 +7,11 @@
 
 <script>
   export default {
+
     props: ['user', 'date'],
     computed: {
+
+      // Format path avatar
       avatarFormat: {
         get: function () {
           if (this.user.avatar) {
@@ -16,24 +19,19 @@
           }
         }
       },
+
+      // Format date
       dateFormat: {
         get: function () {
           var date = new Date(this.date)
           return date.getHours() + ':' + date.getMinutes()
         }
-      },
-      isTyping: {
-        get: function () {
-          for (var i = 0; i < this.$store.users.length; i++) {
-            if (this.$store.users[i].id === this.user.id) {
-              return true
-            }
-          }
-          return false
-        }
       }
     },
+
+    // Created event
     created: function () {
+      // Get avatar from use
       for (var i = 0; i < this.$store.users.length; i++) {
         if (this.$store.users[i].id === this.user.id) {
           this.user.avatar = this.$store.users[i].avatar

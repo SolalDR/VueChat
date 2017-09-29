@@ -15,21 +15,23 @@ export default {
       }
     }
   },
-  components: {
-    Message
+
+  components: { Message },
+
+  watch: {
+    // When messageCount increase, scroll to end of chat
+    messageCount: function (val, old) {
+      var that = this
+      this.$nextTick(() => {
+        that.scrollToEnd()
+      })
+    }
   },
+
   methods: {
     // Scroll to end of message-list
     scrollToEnd: function () {
       this.$el.scrollTop = this.$el.scrollHeight
-    }
-  },
-  watch: {
-    messageCount: function (val, old) {
-      var that = this
-      setTimeout(function () {
-        that.scrollToEnd()
-      }, 50)
     }
   }
 }
